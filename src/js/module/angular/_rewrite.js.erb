@@ -1,0 +1,41 @@
+
+window.angular.module('Rewrite', [])
+	.controller('rewrite', ['$scope', function ($scope) {
+
+		var defaultPattern = "rewrite %r{}, '/'";
+
+		var defaultValues = {
+			projectConfig: {
+				middleman: {
+					rewrite: {
+						development: {
+							r0_index: { name: 'Redirect http://localhost:4567/ to index.html', checked: false, pattern: "rewrite %r{\/$}, '/' + template_engine + '/index.html'" },
+							r1_pages: { name: 'Redirect /page(.html/.asp/.aspx) to /[engine]/page', checked: false, pattern: "rewrite %r{^\/(.*\.html|.*\.aspx|.*\.ashx)(\?.*)?}, '/' + template_engine + '/$1$2''" },
+							r2_assets: { name: 'Redirect (/contentroot)/css/* to /temp/css/*', checked: false, pattern: "rewrite '%r{^\/' + css_dir + '(.*)$}', '/' + temp_dir + css_dir + '$1'" }
+						}
+					}
+				}
+			}
+		};
+
+		$.extend(true, $scope.pkg, defaultValues);
+
+		$scope.addRule = function () {
+
+			//Find all current custom rules
+			var customRules = 0;
+			for (var rule in $scope.pkg.projectConfig.middleman.rewrite.development) {
+				if (rule.indexOf('custom') > -1) {
+					if ($scope.pkg.projectConfig.middleman.rewrite.development[rule].pattern != defaultPattern && $scope.pkg.projectConfig.middleman.rewrite.development[rule].pattern != '') {
+						customRules++;
+					} else {
+						delete $scope.pkg.projectConfig.middleman.rewrite.development[rule];
+					}
+				}
+			}
+
+			//Add a new custom rule
+			$scope.pkg.projectConfig.middleman.rewrite.development['r' + (3 + customRules) + '_custom' + customRules] = { name: 'Project specific rule ' + (customRules + 1), checked: true, pattern: defaultPattern }
+		};
+
+	}]);

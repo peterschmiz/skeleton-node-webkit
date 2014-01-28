@@ -1,0 +1,37 @@
+
+<% if development? %>
+define([
+		'./module/configurator',
+		'./module/info',
+		'./module/directories',
+		'./module/middleman',
+		'./module/rewrite',
+		'./module/html',
+		'./module/menu'
+	], function() {
+	'use strict';
+<% else %>
+	var configurator = require('./js/module/configurator')();
+	var info = require('./js/module/info')();
+	var directories = require('./js/module/directories')();
+	var middleman = require('./js/module/middleman')();
+	var rewrite = require('./js/module/rewrite')();
+	var html = require('./js/module/html')();
+	var menu = require('./js/module/menu')();
+<% end %>
+
+	$(document).ready(function () {
+		angular.bootstrap(angular.element('html'), [
+			'Configurator',
+			'Info',
+			'Directories',
+			'Middleman',
+			'Rewrite',
+			'HTML',
+			'Menu'
+		]);
+	});
+
+<% if development? %>
+});
+<% end %>

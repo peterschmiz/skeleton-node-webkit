@@ -1,0 +1,34 @@
+{
+  "name": "project-configurator",
+  "description": "CarnationGroup Project Configurator",
+  "version": "1.30.0",
+  "author": "CarnationGroup <hello@carnationgroup.com> (http://www.carnationgroup.com)",
+  "homepage": "http://www.possible.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/peterschmiz/skeleton.git"
+  },
+  "bugs": {
+    "url": "http://github.com/peterschmiz/skeleton/issues",
+    "email": "peter.schmiz@carnationgroup.com"
+  },
+  "lastmodified": "2013-10-25 13:17:20",
+  "license": "BSD",
+  "main": "./",
+  "scripts": {},
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "dependencies": {
+    "grunt": "~0.4.1"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-node-webkit-builder": "~0.1.16",
+    "load-grunt-tasks": "~0.2.1",
+    "grunt-bumpup": "~0.4.2",
+    "moment": "~2.3.1",
+    "grunt-parallel": "~0.3.1",
+    "grunt-contrib-sass": "~0.5.0"
+  }
+}

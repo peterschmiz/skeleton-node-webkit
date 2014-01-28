@@ -1,0 +1,27 @@
+
+window.angular.module('HTML', [])
+	.controller('html', ['$scope', function ($scope) {
+
+		var defaultValues = {
+			projectConfig: {
+				html: {
+					title: '',
+					language: 'en',
+					defaultClass: 'no-js',
+					ieTags: [
+						{ name: 'IE7', checked: true },
+						{ name: 'IE8', checked: true },
+						{ name: 'IE9', checked: true }
+					],
+					ogTags: [
+						{ name: 'NS', checked: true },
+						{ name: 'Facebook', checked: true }
+					]
+				}
+			}
+		};
+
+		$.extend(true, $scope.pkg, defaultValues);
+
+
+	}]);

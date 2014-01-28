@@ -1,0 +1,56 @@
+%a#html{tabindex: "-1"}
+%h2 HTML settings
+.pure-g.pure-form
+
+	.pure-control-group.pure-u-1-3{ data: { "ng-controller" => "html" }}
+		%fieldset.pure-form-aligned
+
+			%legend
+				%span <code>html</code> and <code>head</code> attributes
+
+			.pure-control-group
+				%label{for: "title"}
+					%span Default page title:
+				%input#title{"data-ng-model" => "pkg.projectConfig.html.title", type: "text"}/
+
+			.pure-control-group
+				%label{for: "language"}
+					%span Language:
+				%input#language{"data-ng-model" => "pkg.projectConfig.html.language", type: "text"}/
+
+			.pure-control-group
+				%label{for: "default-class"}
+					%span Default <code>html</code> class:
+				%input#default-class{"data-ng-model" => "pkg.projectConfig.html.defaultClass", type: "text"}/
+
+		%fieldset
+
+			.pure-control-group
+				%span.text.medium Add <code>html</code> tags for IE support:
+				%label.pure-checkbox{ data: { "ng-repeat" => "tag in pkg.projectConfig.html.ieTags" }}
+					%input{data: { "ng-model" => "tag.checked", "ng-checked" => "tag.checked" }, type: "checkbox"}/
+					%span {{tag.name}}
+
+	.pure-control-group.pure-u-1-3
+		%fieldset.pure-form-aligned
+
+			%legend
+				%span SEO & social support
+
+			.pure-control-group
+				%label{ for: "htmldescription" }
+					%span Default description:
+				%input#htmldescription{"data-ng-model" => "pkg.projectConfig.html.description", type: "text" }/
+
+			.pure-control-group
+				%label{ for: "keywords" }
+					%span Keywords:
+				%input#keywords{"data-ng-model" => "pkg.projectConfig.html.keywords", type: "text" }/
+
+		%fieldset
+
+			.pure-control-group
+				%span.text.medium Add Open Graph (og:) namespaces to <code>head</code>:
+				%label.pure-checkbox{ data: { "ng-repeat" => "tag in pkg.projectConfig.html.ogTags" }}
+					%input{data: { "ng-model" => "tag.checked", "ng-checked" => "tag.checked" }, type: "checkbox"}/
+					%span {{tag.name}} TODO

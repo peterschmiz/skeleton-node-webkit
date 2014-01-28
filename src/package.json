@@ -1,0 +1,25 @@
+{
+	"main": "index.html",
+	"name": "CarnationGroup - project configurator",
+	"description": "Generate config.rb, package.json, Gruntfile, download and initialize frontend skeleton",
+	"version": "0.1.0",
+	"keywords": [ "CarnationGroup", "Project configurator", "node-webkit" ],
+	"window": {
+		"title": "CarnationGroup - project configurator",
+		"icon": "link.png",
+		"toolbar": true,
+		"frame": true,
+		"width": 800,
+		"height": 500,
+		"position": "center",
+		"min_width": 400,
+		"min_height": 200,
+		"max_width": 1600,
+		"max_height": 1280
+	},
+	"webkit": {
+		"plugin": true
+	},
+	"dependencies": {
+	}
+}

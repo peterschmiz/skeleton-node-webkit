@@ -1,0 +1,11 @@
+
+window.angular.module('Info', [])
+	.controller('info', ['$scope', function ($scope) {
+
+		var defaultValues = {
+			name: 'New project'
+		};
+
+		$.extend(true, $scope.pkg, defaultValues);
+
+	}]);

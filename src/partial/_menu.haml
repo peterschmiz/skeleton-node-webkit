@@ -1,0 +1,6 @@
+%menu.menu{ data: { "ng-controller" => "menu" }}
+    .pure-menu.pure-menu-open
+        %ul
+            %li{ data: { "ng-repeat" => "menu in menuItems" }}
+                %a{ data: { "ng-href" => "{{menu.href}}", "ng-hide" => "menuDisabled(menu)" }} {{menu.name}}
+

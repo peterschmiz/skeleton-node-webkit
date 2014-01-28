@@ -1,0 +1,64 @@
+%a#directories{tabindex: "-1"}
+%h2 Directories
+.pure-g.pure-form.pure-form-stacked{ data: { "ng-controller" => "directorySettings" }}
+
+
+	.pure-control-group.pure-u-1-3
+		%fieldset
+
+			%legend.two-line
+				%span Skeleton directories
+				%br/
+				%span.text.medium Normally, you don't need to modify these
+			%label
+				%span Source directory (source/):
+				%input{"data-ng-model" => "pkg.projectConfig.directories.source", type: "text", value: "source/"}/
+
+			%label
+				%span Build/live directory (../):
+				%input{"data-ng-model" => "pkg.projectConfig.directories.build", type: "text", value: "../"}/
+
+			%label
+				%span Static directory (static/):
+				%input{"data-ng-model" => "pkg.projectConfig.directories.static", type: "text", value: "static/"}/
+
+			%label
+				%span Temp directory (temp/):
+				%input{"data-ng-model" => "pkg.projectConfig.directories.temp", type: "text", value: "temp/"}/
+
+	.pure-control-group.pure-u-1-3
+		%fieldset
+			%legend.two-line
+				%span Asset directories
+				%br/
+				%span.text.medium Relative to source and build directories
+
+			%label
+				%span CSS directory (css/):
+				%input{"data-ng-model" => "pkg.projectConfig.directories.css", type: "text", value: "css/"}/
+
+			%label
+				%span JS directory (js/):
+				%input{"data-ng-model" => "pkg.projectConfig.directories.js", type: "text", value: "js/"}/
+
+			%label
+				%span Images directory (i/):
+				%input{"data-ng-model" => "pkg.projectConfig.directories.images", type: "text", value: "i/"}/
+
+			%label
+				%span Fonts directory (font/):
+				%input{"data-ng-model" => "pkg.projectConfig.directories.font", type: "text", value: "font/"}/
+
+	.pure-control-group.pure-u-1-3
+		%fieldset
+			%legend.two-line
+				%span Alternative content root
+				%br/
+				%span.text.medium Leave this empty if assets are directly in the site root (eg. /i, /css, /js)
+
+			%label
+				%span Content root:
+				%input{"data-ng-model" => "pkg.projectConfig.directories.contentroot", type: "text", value: ""}/
+				%br/
+				%span.text.small For Sitecore projects, define the additional assets directory (eg. project_name/)
+

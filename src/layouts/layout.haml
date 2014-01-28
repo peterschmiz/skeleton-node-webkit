@@ -1,0 +1,17 @@
+!!! 5
+%html{ dir: "ltr", lang: "en" }
+
+	%head
+
+		%meta{ charset: "utf-8" }
+		%title
+
+		= stylesheet_link_tag 'configurator.css', media: "only screen"
+
+		= javascript_include_tag 'lib/jquery.js'
+		= javascript_include_tag 'lib/angular.js'
+		= javascript_include_tag 'lib/require.js', data: { main: 'js/app' }
+
+	%body
+		= yield
+

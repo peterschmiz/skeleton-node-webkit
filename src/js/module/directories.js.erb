@@ -1,0 +1,17 @@
+
+<% if development? %>
+	define([], function() {
+		'use strict';
+		var fs = null;
+<% else %>
+	module.exports = function() {
+		var fs = require('fs');
+<% end %>
+
+<%= partial "./angular/directories.js"%>
+
+<% if development? %>
+	});
+<% else %>
+	};
+<% end %>

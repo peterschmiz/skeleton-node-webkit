@@ -1,0 +1,24 @@
+
+window.angular.module('Menu', [])
+	.controller('menu', ['$scope', function ($scope) {
+
+		$scope.menuItems = [
+			{ name: 'Project info', href: '#projectinfo' },
+			{ name: 'Directories', href: '#directories' },
+			{ name: 'Middleman settings', href: '#middleman' },
+			{ name: 'Rewrite rules', href: '#rewrite' },
+			{ name: 'HTML settings', href: '#html' },
+			{ name: 'CSS settings', href: '#css' },
+			{ name: 'JS settings', href: '#js' },
+			{ name: 'Grunt configuration', href: '#grunt' }
+		];
+
+		$scope.menuDisabled = function (menu) {
+			if (menu.href == '#rewrite' && !$scope.pkg.projectConfig.middleman.features.development.rewrite.checked) {
+				return true;
+			}
+
+			return false;
+		};
+
+	}]);

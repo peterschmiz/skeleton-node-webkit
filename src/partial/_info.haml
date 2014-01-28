@@ -1,0 +1,49 @@
+%a#projectinfo{tabindex: "-1"}
+%h2 Project info
+.info.pure-g.pure-form.pure-form-aligned
+
+	.pure-control-group.pure-u-2-3{ data: { "ng-controller" => "info" }}
+		%fieldset
+
+			%legend.one-line
+				%span General project info
+				%br/
+				%span.text.medium Create a new project or load and modify an existing one
+
+			.pure-control-group
+				%label{for: "projectname"}
+					%span Project name:
+				%input#projectname{ type: "text", data: { "ng-model" => "pkg.name" }}/
+
+			.pure-control-group
+				%label{for: "description"}
+					%span Description:
+				%input#description{"data-ng-model" => "pkg.description", type: "text"}/
+
+			.pure-control-group
+				%label{for: "lastmodified"}
+					%span Last modified:
+				%input#lastmodified{"data-ng-model" => "pkg.lastmodified", disabled: "disabled", type: "text"}/
+
+			.pure-control-group
+				%label{for: "version"}
+					%span Current version:
+				%input#version{"data-ng-model" => "pkg.version", disabled: "disabled", type: "text"}/
+
+	.pure-control-group.pure-u-1-3{ data: { "ng-controller" => "projectDirectory" }}
+		%fieldset
+
+			%legend.one-line
+				%span Main project directory
+				%br/
+				%span.text.medium Or existing '_frontend' directory
+
+			.dropzone{ data: { "drop-zone" => true }}
+				%button.pure-button.pure-button-primary{ data: { "ng-hide" => "settings.projectDirectory!=''" }} Select directory to load
+				%span.drag-instructions{ data: { "ng-hide" => "settings.projectDirectory!=''" }} Drag and drop your project or _frontend directory here
+				%span.drag-result{ data: { "ng-show" => "settings.projectDirectory!=''" }}
+					%span.text.small Current working directory:
+					%br/
+					%span {{settings.projectDirectory}}
+				%input{ nwdirectory: true, webkitdirectory: true, type: "file", name: "projectDirectory",
+					data: { "select-directory" => true }}/

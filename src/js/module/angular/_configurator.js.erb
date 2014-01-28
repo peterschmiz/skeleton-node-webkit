@@ -1,0 +1,12 @@
+
+window.angular.module('Configurator', [])
+	.controller('configurator', ['$scope', function ($scope) {
+		$scope.pkg = {
+			projectConfig: {}
+		};
+
+		$scope.settings = {
+			projectDirectory: ''
+		};
+
+	}]);

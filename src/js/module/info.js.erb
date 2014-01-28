@@ -1,0 +1,16 @@
+
+<% if development? %>
+define([], function() {
+	'use strict';
+<% else %>
+	module.exports = function() {
+<% end %>
+
+<%= partial "./angular/info.js"%>
+
+
+<% if development? %>
+});
+<% else %>
+};
+<% end %>

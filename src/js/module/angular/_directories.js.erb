@@ -1,0 +1,210 @@
+
+window.angular.module('Directories', [])
+	.controller('directorySettings', ['$scope', function ($scope) {
+
+		var defaultValues = {
+			projectConfig: {
+				directories: {
+					source: 'source/',
+					build: '../',
+					static: 'static/',
+					temp: 'temp/',
+					css: 'css/',
+					js: 'js/',
+					images: 'i/',
+					font: 'font/',
+					contentroot: ''
+				}
+			}
+		};
+
+		$.extend(true, $scope.pkg, defaultValues);
+
+	}])
+	.controller('projectDirectory', ['$scope', '$rootScope', '$q', function ($scope, $rootScope, $q) {
+		window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+		window.directoryEntry = window.directoryEntry || window.webkitDirectoryEntry;
+
+		var dir;
+
+		$scope.readConfig = function (input, filesMode) {
+			var i;
+			if (fs) {
+				for (i = 0; i < files.length; ++i) {
+					console.log(files[i].path);
+				}
+			} else {
+				if (filesMode) {
+					readConfig(input).then(setConfig, newProject);
+				} else {
+					window.requestFileSystem(window.PERSISTENT, 1024*1024, function (f) {
+						var dirReader = input.createReader();
+						var entries = [];
+
+						var readEntries = function() {
+							dirReader.readEntries (function (results) {
+								if (!results.length) {
+									if (entries.length > 0) {
+										readConfig(entries.sort()).then(setConfig, newProject);
+									} else {
+										readConfig(input).then(setConfig, newProject);
+									}
+								} else {
+									entries = entries.concat(toArray(results));
+									readEntries();
+								}
+							}, errorHandler);
+						};
+
+						readEntries();
+
+					}, errorHandler);
+				}
+			}
+		};
+
+		function errorHandler(e) {
+			console.log("Error", e);
+		}
+
+		function readConfig(files) {
+			var deferred = $q.defer();
+
+			var i;
+			var configFound;
+			var frontendFound;
+			var packageFound;
+
+			for (i = 0; i < files.length; ++i) {
+				if (files[i].isDirectory && files[i].name == '_frontend') {
+					var file = files[i];
+
+					frontendFound = true;
+					var parent = file;
+
+					//Found frontend folder
+					file.getFile('package.json', {create: false}, function(contents) {
+
+						var reader = new FileReader();
+
+						reader.onloadend = function (e) {
+							console.log("FOUND FRONTEND");
+							configFound = true;
+							var pkg = e.target.result;
+
+
+							deferred.resolve({ config: e.target.result, projectdirectory: parent });
+							return;
+						};
+
+						reader.readAsText(contents);
+
+					}, errorHandler);
+				}
+			}
+
+			if (!configFound && !frontendFound) {
+
+				//Frontend directory not found, we may be using a custom skeleton project.
+				//Find first package.json;
+
+				for (i = 0; i < files.length; ++i) {
+					if (files[i].isFile && files[i].name == 'package.json') {
+						packageFound = true;
+
+						var file = files[i];
+						//Get file parent
+						file.getParent(function (parent) {
+							//Make sure we don't pick up package.jsons in installed modules
+							if (parent.name != 'node_modules') {
+								file.file(function(contents) {
+									var reader = new FileReader();
+									reader.onloadend = function (e) {
+										var pkg = e.target.result;
+
+										//Make sure we're dealing with a skeleton package.json
+										if (pkg.indexOf('skeleton') > -1) {
+											configFound = true;
+											deferred.resolve({ config: pkg, projectdirectory: parent });
+											return;
+										}
+									};
+
+									reader.readAsText(contents);
+								}, errorHandler);
+
+							}
+						}, errorHandler);
+					}
+				}
+			}
+
+			if (!configFound && !frontendFound && !packageFound) {
+				var directory = files.length > 0 ? files[0].getParent() : files;
+				deferred.reject(directory);
+			}
+
+			return deferred.promise;
+		}
+
+		function newProject(directory) {
+			setConfig({ config: null, projectdirectory: directory});
+		}
+
+		function setConfig(data) {
+			//DEBUG NOT WORKING
+			$scope.settings.projectDirectory = data.projectdirectory.name;
+
+			if (data.config) {
+				var pkg = JSON.parse(data.config);
+				$.extend(true, $scope.pkg, pkg);
+
+			}
+		}
+
+		function toArray(list) {
+			return Array.prototype.slice.call(list || [], 0);
+		}
+
+	}])
+	.directive('selectDirectory', [ function () {
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+				element.on('change', function (e) {
+					scope.readConfig(element[0].files, true);
+				});
+			}
+
+		};
+	}])
+	.directive('dropZone', [ function () {
+		return {
+			restrict: 'A',
+			link: function(scope, element, attrs) {
+
+				element.on('dragover dragenter', function (e) {
+					e.preventDefault();
+				});
+
+				element.on('drop', function (e) {
+					e.preventDefault();
+
+					var i;
+					var entry;
+
+					var files = e.originalEvent.dataTransfer.items;
+					var length = files.length;
+					for (i = 0; i < length; i++) {
+						entry = files[i].webkitGetAsEntry();
+						if (entry.isFile) {
+							alert("Please drop a directory, not files.")
+						} else if (entry.isDirectory) {
+							scope.readConfig(entry);
+						}
+					}
+				});
+			}
+
+		};
+	}]);

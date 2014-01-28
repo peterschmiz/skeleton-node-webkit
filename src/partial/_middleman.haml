@@ -1,0 +1,30 @@
+%a#middleman{tabindex: "-1"}
+%h2 Middleman settings
+.pure-g.pure-form{ data: { "ng-controller" => "middleman" }}
+	.pure-control-group.pure-u-1-3
+		%fieldset
+			%legend Template engine
+
+			%label.pure-radio
+				%input{"data-ng-model" => "pkg.projectConfig.middleman.engine", name: "engine", type: "radio", value: "erb"}/
+				%span ERB
+
+			%label.pure-radio
+				%input{"data-ng-model" => "pkg.projectConfig.middleman.engine", name: "engine", type: "radio", value: "haml"}/
+				%span HAML
+
+	.pure-control-group.pure-u-1-3
+		%fieldset
+			%legend Development features
+
+			%label.pure-checkbox{ data: { "ng-repeat" => "feature in pkg.projectConfig.middleman.features.development" }}
+				%input{data: { "ng-model" => "feature.checked", "ng-checked" => "feature.checked" }, type: "checkbox", value: "{{feature.command}}"}/
+				%span {{feature.name}}
+
+	.pure-control-group.pure-u-1-3
+		%fieldset
+			%legend Production features
+
+			%label.pure-checkbox{ data: { "ng-repeat" => "feature in pkg.projectConfig.middleman.features.production" }}
+				%input{data: { "ng-model" => "feature.checked", "ng-checked" => "feature.checked" }, type: "checkbox", value: "{{feature.command}}"}/
+				%span {{feature.name}}
